@@ -27,7 +27,7 @@ function reviewExecution() {
   console.log(`---------- Result Log Summary ------------ \n`);
 
   console.log(
-    `Text Exam runs  with ${logs.length} function/s executed lasted for ${executionTime} seconds \n`
+    `Text Exam runs with ${logs.length} function/s executed lasted for ${executionTime} seconds \n`
   );
 
   console.log(`---------- Result Log Summary ------------ \n`);
