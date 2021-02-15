@@ -1,6 +1,6 @@
 const glob = require('glob-promise');
 const { REGEX } = require('./utilities/constants');
-const { DateFormatToTime } = require('./utilities/functions');
+const { DateFormatToTime, DateDiff } = require('./utilities/functions');
 
 // main objects
 
@@ -17,12 +17,20 @@ function getLastPathName(file) {
 }
 
 function reviewExecution() {
+  const endTime = new Date();
   const { logs, executionTime } = result;
 
+  console.log(`Starting Time: ${DateFormatToTime(data)}`);
+  console.log(`Ending Time: ${DateFormatToTime(endTime)}`);
+  console.log(`Date Difference in Seconds: ${DateDiff(data, endTime)} \n`);
+
+  console.log(`---------- Result Log Summary ------------ \n`);
+
   console.log(
-    `Text Exam runs at total execution time of ${executionTime}, with ${logs.length} function executed`
+    `Text Exam runs  with ${logs.length} function/s executed lasted for ${executionTime} seconds \n`
   );
-  console.log(logs);
+
+  console.log(`---------- Result Log Summary ------------ \n`);
 }
 
 async function executeFn(folder, file) {
@@ -55,11 +63,12 @@ async function readDirectories(folders) {
 
 async function index() {
   const dataReadDir = await glob(REGEX.folders);
-  console.log(`Starting Executing of Functions at ${DateFormatToTime(data)}`);
+  console.log(
+    `\n Starting Executing of Functions at ${DateFormatToTime(data)} \n`
+  );
 
   await readDirectories(dataReadDir);
 
-  console.log(`End Executing of Functions at ${DateFormatToTime(new Date())}`);
   reviewExecution();
 }
 

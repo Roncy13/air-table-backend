@@ -1,4 +1,7 @@
-const SECONDS = 3000;
+const SECONDS = {
+  MIN: 3,
+  MAX: 8,
+};
 const REGEX = {
   folders: './folder*',
   jsFiles: (folder) => `${folder}/*.js`,
