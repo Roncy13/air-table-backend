@@ -1,4 +1,4 @@
-const { ExecuteFn } = require('./../utilities/functions');
+const { ExecuteFn } = require('../utilities/functions');
 
 async function FirstFunction(payload, result) {
   return ExecuteFn(payload, result);
@@ -12,8 +12,13 @@ async function ThirdFunction(payload, result) {
   return ExecuteFn(payload, result);
 }
 
+async function FourthFunction(payload, result) {
+  return ExecuteFn(payload, result);
+}
+
 module.exports = {
   FirstFunction,
   SecondFunction,
   ThirdFunction,
+  FourthFunction,
 };

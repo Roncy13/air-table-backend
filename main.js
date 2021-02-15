@@ -1,35 +1,41 @@
-const { REGEX } = require('./utilities/constants');
 const glob = require('glob-promise');
+const { REGEX } = require('./utilities/constants');
 const { DateFormatToTime } = require('./utilities/functions');
+
+// main objects
 
 const data = new Date();
 const result = {
   counter: 0,
-  logs: [],
   executionTime: 0,
+  logs: [],
 };
 
-function getFilename(file) {
+function getLastPathName(file) {
   const arrFile = file.split('/');
   return arrFile.pop();
 }
 
+function reviewExecution() {
+  const { logs, executionTime } = result;
+
+  console.log(
+    `Text Exam runs at total execution time of ${executionTime}, with ${logs.length} function executed`
+  );
+  console.log(logs);
+}
+
 async function executeFn(folder, file) {
   const jsFn = require(file);
-  const filename = getFilename(file);
+  const filename = getLastPathName(file);
   const keyFns = Object.keys(jsFn);
 
-  console.log(`Starting Executing of Functions at ${DateFormatToTime(data)}`);
-
   for (const keyFn of keyFns) {
-    const payload = { filename, folder, name: keyFn };
+    const payload = { filename, folder: getLastPathName(folder), name: keyFn };
     result.counter = result.counter + 1;
+
     await jsFn[keyFn](payload, result);
   }
-
-  console.log(result);
-
-  console.log(`End Executing of Functions at ${DateFormatToTime(new Date())}`);
 }
 
 async function readFiles(folder) {
@@ -41,14 +47,20 @@ async function readFiles(folder) {
   }
 }
 
-async function readDirectories(getData) {
-  await getData.forEach(readFiles);
+async function readDirectories(folders) {
+  for (const folder of folders) {
+    await readFiles(folder);
+  }
 }
 
 async function index() {
   const dataReadDir = await glob(REGEX.folders);
+  console.log(`Starting Executing of Functions at ${DateFormatToTime(data)}`);
 
   await readDirectories(dataReadDir);
+
+  console.log(`End Executing of Functions at ${DateFormatToTime(new Date())}`);
+  reviewExecution();
 }
 
 index();

@@ -1,4 +1,4 @@
-const { ExecuteFn } = require('./../utilities/functions');
+const { ExecuteFn } = require('../utilities/functions');
 
 async function FirstFunction(payload, result) {
   return ExecuteFn(payload, result);
