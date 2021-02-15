@@ -6,7 +6,6 @@ const { DateFormatToTime, DateDiff } = require('./utilities/functions');
 
 const data = new Date();
 const result = {
-  counter: 0,
   executionTime: 0,
   logs: [],
 };
@@ -16,6 +15,14 @@ function getLastPathName(file) {
   return arrFile.pop();
 }
 
+function reviewExecutionLogs(logs) {
+  console.log(`---------- Result Log History ------------ \n`);
+
+  logs.forEach((log) => console.log(log));
+
+  console.log(`---------- Result Log History ------------ \n`);
+}
+
 function reviewExecution() {
   const endTime = new Date();
   const { logs, executionTime } = result;
@@ -23,6 +30,9 @@ function reviewExecution() {
   console.log(`Starting Time: ${DateFormatToTime(data)}`);
   console.log(`Ending Time: ${DateFormatToTime(endTime)}`);
   console.log(`Date Difference in Seconds: ${DateDiff(data, endTime)} \n`);
+
+  // comment our for log storage showing purposes only
+  // reviewExecutionLogs(logs);
 
   console.log(`---------- Result Log Summary ------------ \n`);
 
@@ -40,7 +50,6 @@ async function executeFn(folder, file) {
 
   for (const keyFn of keyFns) {
     const payload = { filename, folder: getLastPathName(folder), name: keyFn };
-    result.counter = result.counter + 1;
 
     await jsFn[keyFn](payload, result);
   }

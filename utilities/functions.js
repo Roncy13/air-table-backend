@@ -19,27 +19,34 @@ const ExecuteFn = async ({ filename, folder, name }, result, resolve) =>
     const seconds = RandomSeconds();
 
     console.log(
-      `${result.counter}. Executing ${fn} at ${startExecute} with ${seconds} seconds delay`
+      `${
+        result.logs.length + 1
+      }. Executing ${fn} at ${startExecute} with ${seconds} seconds delay`
     );
 
     return setTimeout(() => {
       const endTime = new Date();
       const endExecute = DateFormatToTime(endTime);
       const dateDiff = DateDiff(startTime, endTime);
-      const log = `${fn} runs at ${startExecute} and ends in ${endExecute} with ${dateDiff} seconds difference`;
-      const addExecutionTime = result.executionTime + dateDiff;
+      const baseLog = `${fn} runs at ${startExecute} and ends in ${endExecute} with ${dateDiff} seconds difference`;
+      const logDetails = `----- Details of: ${fn} ------ \n`;
+      const dateDiffLog = `    Date difference in seconds: ${dateDiff}`;
+      const timeDiffLog = `    Time start executed: ${startExecute}, Time end execution: ${endExecute}`;
 
-      console.log(`----- Details of: ${fn} ------ \n`);
-      console.log(`    Date difference in seconds: ${dateDiff}`);
-      console.log(
-        `    Time start executed: ${startExecute}, Time end execution: ${endExecute}`
-      );
-      console.log(
-        `    Total Seconds before execution: ${result.executionTime},  Total Seconds after execution: ${addExecutionTime} \n`
-      );
+      console.log(baseLog);
+      console.log(logDetails);
+      console.log(dateDiffLog);
+      console.log(timeDiffLog);
+
+      const addExecutionTime = result.executionTime + dateDiff;
+      const totalExecLog = `    Total Seconds before execution: ${result.executionTime}s,  Total Seconds after execution: ${addExecutionTime}s \n`;
+
+      console.log(totalExecLog);
 
       result.executionTime = addExecutionTime;
-      result.logs.push(log);
+      result.logs.push(
+        [baseLog, logDetails, dateDiffLog, timeDiffLog, totalExecLog].join('\n')
+      );
       return resolve();
     }, seconds);
   });
